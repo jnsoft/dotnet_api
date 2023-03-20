@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using myapi2.Authentication;
 
 namespace myapi2.Controllers
 {
@@ -19,6 +20,7 @@ namespace myapi2.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+        // [ServiceFilter(typeof(ApiKeyAuthFilter))] // method 3: using filters on controllers/methods
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

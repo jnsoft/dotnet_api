@@ -21,6 +21,8 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
+var group = app.MapGroup("weather");
+
 app.MapGet("/weatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -32,7 +34,7 @@ app.MapGet("/weatherforecast", () =>
         ))
         .ToArray();
     return forecast;
-})
+}).add
 .WithName("GetWeatherForecast");
 
 app.Run();
