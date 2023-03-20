@@ -1,3 +1,5 @@
+using myapi.Authentication;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,7 +23,9 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
+var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
+
+wgroup.MapGet("/weatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
@@ -32,7 +36,7 @@ app.MapGet("/weatherforecast", () =>
         ))
         .ToArray();
     return forecast;
-})
+}).add
 .WithName("GetWeatherForecast");
 
 app.Run();
