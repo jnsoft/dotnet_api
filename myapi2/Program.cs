@@ -61,25 +61,12 @@ app.UseHttpsRedirection();
 if(useApiKeyAuthMiddleware)
     app.UseMiddleware<ApiKeyAuthMiddleware>(); // method 1 (middleware): use to apply apikey to every method (works with both controllers and minimal API)
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
 // using minimal API
-app.MapGet("/miniget", () =>
-{
-    var summaries = new[]{"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"};
-
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        { 
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        })
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecastMini");
+app.MapGet("/miniget", () => Models.WeatherForecast.Generate())
+    .WithName("GetWeatherForecastMini");
 
 app.Run();
