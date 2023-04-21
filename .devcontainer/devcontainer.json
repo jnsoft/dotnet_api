@@ -5,6 +5,7 @@
   "features": {
     "ghcr.io/devcontainers/features/dotnet:1": {}
   },
+    
   "forwardPorts": [5000, 5001],
     // "portsAttributes": {
     //   "5001": {
@@ -15,11 +16,11 @@
   "postCreateCommand": "dotnet restore",
     
   "customizations": {
-  // Configure properties specific to VS Code.
-  "vscode": {
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-      "streetsidesoftware.code-spell-checker"
-    ]
-  }
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
 }
