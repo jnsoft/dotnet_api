@@ -4,9 +4,14 @@ using myapi2.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+bool useApiKeyAuthenticationFilter = false;
+bool useApiKeyAuthMiddleware = false;
 
-builder.Services.AddControllers(/*x => x.Filters.Add<ApiKeyAuthFilter>()*/); // method 2 (filter): apply to every controller
+// Add services to the container.
+if(!useApiKeyAuthenticationFilter)
+    builder.Services.AddControllers(); 
+else // method 2 (filter): apply to every controller
+    builder.Services.AddControllers(x => x.Filters.Add<ApiKeyAuthFilter>());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +41,7 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityRequirement(requiriment);
 });
 
-builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 3: allow using filters on controllers/methods
+//builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 3: allow using filters on controllers/methods
 
 var app = builder.Build();
 
@@ -49,9 +54,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseMiddleware<ApiKeyAuthMiddleware>(); // method 1 (middleware): use to apply apikey to every method (works with both controllers and minimal API)
-
-
+if(useApiKeyAuthMiddleware)
+    app.UseMiddleware<ApiKeyAuthMiddleware>(); // method 1 (middleware): use to apply apikey to every method (works with both controllers and minimal API)
 
 app.UseAuthorization();
 
