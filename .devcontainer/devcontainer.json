@@ -1,0 +1,31 @@
+{
+  "name": "C# (.NET)",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/dotnet:0.204.8-6.0-jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:1": {}
+  },
+    
+  "forwardPorts": [5000, 5001],
+    // "portsAttributes": {
+    //   "5001": {
+    //     "protocol": "https"
+    //   }
+    // }
+    
+  "postCreateCommand": "dotnet restore",
+    
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  }
+
+  // "remoteUser": "root"
+  
+}
