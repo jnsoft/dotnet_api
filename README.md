@@ -9,6 +9,13 @@ dotnet dev-certs https --trust (Windows & macOs, not availible for Linux)
 ```
 
 ## Test
+
+### MyApi
+```
+curl -X 'GET' 'https://localhost:5000/weather/weatherforecast' \
+  -H 'accept: application/json'
+```
+
 ```
 curl -X 'GET' \
   'https://localhost:5078/miniget' \
