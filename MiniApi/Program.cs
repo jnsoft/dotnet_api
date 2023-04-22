@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+
 builder.Services.AddLogging(logging => logging.AddConsole());
 
 // Add services to the container.
