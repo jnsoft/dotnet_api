@@ -1,6 +1,12 @@
 # dotnet_api
 Demo of API authentication
 
+## API Key
+
+### Using middleware
+* Applies authorization to all every method
+* Works with both minimal api and controllers
+
 ## Setup build environment
 
 ```

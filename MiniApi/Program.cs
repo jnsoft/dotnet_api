@@ -4,6 +4,8 @@ using MiniApi.Common;
 using Microsoft.OpenApi.Models;
 using System.Net;
 
+const bool USE_APIKEY_AUTH_MIDDLEWARE = true;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,6 +34,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+if(USE_APIKEY_AUTH_MIDDLEWARE)
+    app.UseMiddleware<ApiKeyAuthMiddleware>();
+
+//if (USE_APIKEY_AUTH_MIDDLEWARE)
+    //app.UseAuthorization();
+
 //app.MapGet("/", () => Results.Redirect("https://example.com", true, true));
 //app.MapGet("/{*_}", (string _) => Results.Redirect("https://example.com", true, true));
 
@@ -43,14 +51,20 @@ app.UseHttpsRedirection();
 //    endpoints.Redirect("/", "/hello");
 //});
 
-app.Map("/ping", () => "pong");
+/*
+app.MapGet("/miniget", () => Models.WeatherForecast.Generate())
+    .WithName("GetWeatherForecastMini");
+    */
 
+/*
 var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
 wgroup.MapGet("/weatherforecast", () =>
 {
     return WeatherForecast.GenerateWeatherReport();
 }) // .add
 .WithName("GetWeatherForecast");
+*/
 
+app.MapGet("/ping", () => "pong");
 app.Run();
 
