@@ -4,7 +4,7 @@ using ControllerApi;
 using ControllerApi.Authentication;
 
 
-const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
+const bool USE_APIKEY_AUTH_MIDDLEWARE = true;
 const bool USE_APIKEY_AUTH_FILTER = false;
 const bool USE_APIKEY_SCOPED_AUTH_FILTER = true;
 

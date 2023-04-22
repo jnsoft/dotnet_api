@@ -20,6 +20,7 @@ namespace ControllerApi.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
+        // [ServiceFilter(typeof(ApiKeyAuthFilter))]
         public IEnumerable<WeatherForecast> Get() => Models.WeatherForecast.Generate();
 
        
