@@ -30,7 +30,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/ControllerApi/bin/Debug/net6.0/myapi2.dll",
+            "program": "${workspaceFolder}/ControllerApi/bin/Debug/net6.0/ControllerApi.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ControllerApi/bin/Debug/net6.0/",
             "stopAtEntry": false,

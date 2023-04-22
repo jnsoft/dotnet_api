@@ -4,10 +4,12 @@ using Microsoft.OpenApi.Models;
 using ControllerApi;
 using ControllerApi.Authentication;
 
-var builder = WebApplication.CreateBuilder(args);
 
 bool useApiKeyAuthenticationFilter = false;
 bool useApiKeyAuthMiddleware = false;
+
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 if(!useApiKeyAuthenticationFilter)
@@ -18,8 +20,8 @@ else // method 2 (filter): apply to every controller
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => 
-//OpenApiSecurityDefinitions.ApiKeyDefinition());
-
+OpenApiSecurityDefinitions.ApiKeyDefinition());
+/*
 {
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
@@ -43,7 +45,7 @@ builder.Services.AddSwaggerGen(c =>
         {scheme, new List<string>() }
     };
     c.AddSecurityRequirement(requirement);
-});
+}); */
 
 
 //builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 3: allow using filters on controllers/methods
@@ -67,9 +69,7 @@ if(useApiKeyAuthMiddleware)
 app.MapControllers();
 
 // using minimal API
-app.MapGet("/miniget", () => WeatherForecast.Generate())
-    .WithName("GetWeatherForecastMini");
-
+app.MapGet("/miniget", () => WeatherForecast.Generate()).WithName("GetWeatherForecastMini");
 app.MapGet("/", () => "Controller API");
 
 app.Run();
