@@ -3,11 +3,13 @@ public class ApiKeyAuthMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _config;
+        private readonly ILogger _logger;
 
-        public ApiKeyAuthMiddleware(RequestDelegate next, IConfiguration config)
+        public ApiKeyAuthMiddleware(RequestDelegate next, IConfiguration config, ILogger logger)
         {
             _next = next;
             _config = config;
+            _logger = logger;
         } 
 
         public async Task InvokeAsync(HttpContext context)
@@ -27,7 +29,7 @@ public class ApiKeyAuthMiddleware
             var root = (IConfigurationRoot)_config;
             string debugView = root.GetDebugView();
             
-
+            _logger.LogInformation(debugView);
             
 
             // Get key from configuration

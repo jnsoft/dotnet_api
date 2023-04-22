@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+builder.Services.AddLogging(logging => logging.AddConsole());
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer(); // needed for minimal api:s
@@ -40,6 +42,11 @@ app.UseHttpsRedirection();
 if(USE_APIKEY_AUTH_MIDDLEWARE)
     app.UseMiddleware<ApiKeyAuthMiddleware>();
 
+//ILogger <LogTest> logger = app.Services.GetRequiredService<ILogger<LogTest>>();
+//var test = new LogTest(logger);
+
+
+
 //if (USE_APIKEY_AUTH_MIDDLEWARE)
     //app.UseAuthorization();
 
@@ -68,6 +75,7 @@ wgroup.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 */
 
+app.MapGet("/", () => "Minimal API");
 app.MapGet("/ping", () => "pong");
 app.Run();
 
