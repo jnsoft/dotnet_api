@@ -31,7 +31,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/myapi2/myapi2.csproj",
+                "${workspaceFolder}/ControllerApi/ControllerApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -45,7 +45,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/myapi2/myapi2.csproj"
+                "${workspaceFolder}/ControllerApi/ControllerApi.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
