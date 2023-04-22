@@ -37,11 +37,11 @@ builder.Services.AddSwaggerGen(c =>
         },
         In = ParameterLocation.Header
     };
-    var requiriment = new OpenApiSecurityRequirement
+    var requirement = new OpenApiSecurityRequirement
     {
         {scheme, new List<string>() }
     };
-    c.AddSecurityRequirement(requiriment);
+    c.AddSecurityRequirement(requirement);
 });
 
 

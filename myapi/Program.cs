@@ -28,11 +28,11 @@ builder.Services.AddSwaggerGen(c => // OpenApiSecurityDefinitions.ApiKeyDefiniti
         },
         In = ParameterLocation.Header
     };
-    var requiriment = new OpenApiSecurityRequirement
+    var requirement = new OpenApiSecurityRequirement
     {
         {scheme, new List<string>() }
     };
-    c.AddSecurityRequirement(requiriment);
+    c.AddSecurityRequirement(requirement);
 });
 
 builder.Services.AddHttpsRedirection(options =>
@@ -52,8 +52,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => Results.Redirect("https://example.com", true, true));
-app.MapGet("/{*_}", (string _) => Results.Redirect("https://example.com", true, true));
+//app.MapGet("/", () => Results.Redirect("https://example.com", true, true));
+//app.MapGet("/{*_}", (string _) => Results.Redirect("https://example.com", true, true));
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
