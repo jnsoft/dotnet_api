@@ -36,7 +36,7 @@ wgroup.MapGet("/weatherforecast", () =>
         ))
         .ToArray();
     return forecast;
-}).add
+})//.add
 .WithName("GetWeatherForecast");
 
 app.Run();
