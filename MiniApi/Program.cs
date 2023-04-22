@@ -75,6 +75,7 @@ wgroup.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 */
 
+
 app.MapGet("/", () => "Minimal API");
 app.MapGet("/ping", () => "pong");
 app.Run();

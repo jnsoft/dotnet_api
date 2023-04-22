@@ -26,13 +26,13 @@
             "requireExactSource": true
         },
         {
-            "name": "Myapi2",
+            "name": "Controller API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/myapi2/bin/Debug/net6.0/myapi2.dll",
+            "program": "${workspaceFolder}/ControllerApi/bin/Debug/net6.0/myapi2.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/myapi2",
+            "cwd": "${workspaceFolder}/ControllerApi/bin/Debug/net6.0/",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
