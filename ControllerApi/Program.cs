@@ -1,4 +1,3 @@
-using ControllerApi.Common;
 using ControllerApi.Models;
 using Microsoft.OpenApi.Models;
 using ControllerApi;
@@ -20,8 +19,6 @@ else // method 2 (filter): apply to every controller
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => 
-OpenApiSecurityDefinitions.ApiKeyDefinition());
-/*
 {
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
@@ -45,7 +42,7 @@ OpenApiSecurityDefinitions.ApiKeyDefinition());
         {scheme, new List<string>() }
     };
     c.AddSecurityRequirement(requirement);
-}); */
+}); 
 
 
 //builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 3: allow using filters on controllers/methods
