@@ -2,6 +2,7 @@ using myapi.Authentication;
 using Models;
 using Common;
 using Microsoft.OpenApi.Models;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,12 @@ builder.Services.AddSwaggerGen(c => // OpenApiSecurityDefinitions.ApiKeyDefiniti
     c.AddSecurityRequirement(requiriment);
 });
 
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
+    options.HttpsPort = 443;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +51,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGet("/", () => Results.Redirect("https://example.com", true, true));
+app.MapGet("/{*_}", (string _) => Results.Redirect("https://example.com", true, true));
+
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
+//app.UseEndpoints(endpoints =>
+//{
+    // redirect to one route
+//    endpoints.Redirect("/", "/hello");
+//});
 
 var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
 
