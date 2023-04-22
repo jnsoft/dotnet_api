@@ -1,4 +1,4 @@
-namespace Models;
+namespace MiniApi.Models;
 
 public record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
 {

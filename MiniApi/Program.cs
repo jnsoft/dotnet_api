@@ -1,6 +1,6 @@
 using MiniApi.Authentication;
-using Models;
-using Common;
+using MiniApi.Models;
+using MiniApi.Common;
 using Microsoft.OpenApi.Models;
 using System.Net;
 
