@@ -6,6 +6,7 @@ using System.Net;
 using Microsoft.Extensions.Logging.Console;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
+const bool USE_APIKEY_AUTH_ENDPOINT_FILTER = false;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Logging.ClearProviders();
@@ -55,28 +56,29 @@ if(USE_APIKEY_AUTH_MIDDLEWARE)
 
 // app.MapGet("/", () => Results.Redirect("/swagger"));
 
-//app.UseEndpoints(endpoints =>
-//{
-    // redirect to one route
-//    endpoints.Redirect("/", "/hello");
-//});
 
 /*
 app.MapGet("/miniget", () => Models.WeatherForecast.Generate())
     .WithName("GetWeatherForecastMini");
-    */
-
-/*
-var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
-wgroup.MapGet("/weatherforecast", () =>
-{
-    return WeatherForecast.GenerateWeatherReport();
-}) // .add
-.WithName("GetWeatherForecast");
 */
 
 
+var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
+
+wgroup.MapGet("/weatherforecast", () =>
+{
+    return WeatherForecast.GenerateWeatherReport();
+}).WithName("GetWeatherForecast");
+
+
 app.MapGet("/", () => "Minimal API");
-app.MapGet("/ping", () => "pong");
+
+if(USE_APIKEY_AUTH_ENDPOINT_FILTER)
+    app.MapGet("/ping", () => "pong")
+        .AddEndpointFilter<ApiKeyEndpointFilter>();
+else
+    app.MapGet("/ping", () => "pong");
+    
+
 app.Run();
 
