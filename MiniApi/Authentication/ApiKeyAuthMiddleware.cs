@@ -20,8 +20,18 @@ public class ApiKeyAuthMiddleware
                 return;
             }
 
+            IConfigurationSection sec = _config.GetSection("Authentication");
+            bool test = _config.GetSection("Authentication").Exists();
+            string test2 = _config[ApiKeyAuthConstants.ApiKeyConfigSection];
+
+            var root = (IConfigurationRoot)_config;
+            string debugView = root.GetDebugView();
+            
+
+            
+
             // Get key from configuration
-            string api_key = _config.GetValue<string>(ApiKeyAuthConstants.ApiKeyConfigLocation) ?? "";
+            string api_key = _config.GetValue<string>(ApiKeyAuthConstants.ApiKeyConfigSection) ?? "";
 
             // Check if key matches
             if(string.IsNullOrWhiteSpace(api_key) || !api_key.Equals(header_key))

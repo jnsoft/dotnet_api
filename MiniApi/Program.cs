@@ -3,10 +3,13 @@ using MiniApi.Models;
 using MiniApi.Common;
 using Microsoft.OpenApi.Models;
 using System.Net;
+using Microsoft.Extensions.Logging.Console;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = true;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
