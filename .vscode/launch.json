@@ -11,7 +11,7 @@
             "preLaunchTask": "build_miniapi",
             "program": "${workspaceFolder}/MiniApi/bin/Debug/net7.0/MiniApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/MiniApi",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
