@@ -6,7 +6,7 @@ using System.Net;
 using Microsoft.Extensions.Logging.Console;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
-const bool USE_APIKEY_AUTH_ENDPOINT_FILTER = false;
+const bool USE_APIKEY_AUTH_ENDPOINT_FILTER = true;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Logging.ClearProviders();
@@ -65,19 +65,28 @@ if (USE_APIKEY_AUTH_ENDPOINT_FILTER)
 else
     wgroup = app.MapGroup("weather");
 
-wgroup.MapGet("/weatherforecast", () =>
+wgroup.MapGet("/weatherforecastFromGroup", () =>
 {
     return WeatherForecast.GenerateWeatherReport();
-}).WithName("GetWeatherForecast");
+});
 
 
 app.MapGet("/", () => "Minimal API");
 
+
 if(USE_APIKEY_AUTH_ENDPOINT_FILTER)
+{
     app.MapGet("/ping", () => "pong")
         .AddEndpointFilter<ApiKeyEndpointFilter>();
+    app.MapGet("/weatherforecast", () => WeatherForecast.GenerateWeatherReport())
+        .AddEndpointFilter<ApiKeyEndpointFilter>();
+
+}
 else
+{
     app.MapGet("/ping", () => "pong");
+    app.MapGet("/weatherforecast", () => WeatherForecast.GenerateWeatherReport());
+}
     
 
 app.Run();
