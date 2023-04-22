@@ -8,7 +8,6 @@ Demo of API authentication
 * Works with both minimal api and controllers
 
 ## Setup build environment
-
 ```
 dotnet dev-certs https
 dotnet dev-certs https --trust (Windows & macOs, not availible for Linux)
@@ -16,12 +15,17 @@ dotnet dev-certs https --trust (Windows & macOs, not availible for Linux)
 
 ## Test
 
-### MyApi
+### MiniApi
 ```
-curl -X 'GET' 'https://localhost:5000/weather/weatherforecast' \
-  -H 'accept: application/json'
-```
+curl -X 'GET' 'https://localhost:5000/ping' \
+  -H 'accept: text/plain' \
+  -H 'x-api-key: secret'
 
+curl -X 'GET' 'https://localhost:5000/weather/weatherforecast' \
+  -H 'accept: application/json' \
+  -H 'x-api-key: secret'
+```
+## Controller API
 ```
 curl -X 'GET' \
   'https://localhost:5078/miniget' \

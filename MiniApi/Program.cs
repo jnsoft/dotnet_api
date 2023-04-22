@@ -5,14 +5,12 @@ using Microsoft.OpenApi.Models;
 using System.Net;
 using Microsoft.Extensions.Logging.Console;
 
-const bool USE_APIKEY_AUTH_MIDDLEWARE = true;
+const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-
-
-builder.Services.AddLogging(logging => logging.AddConsole());
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+//builder.Services.AddLogging(logging => logging.AddConsole());
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,6 +26,8 @@ builder.Services.AddSwaggerGen(c =>
 //    options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
 //    options.HttpsPort = 443;
 //});
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -47,9 +47,8 @@ if(USE_APIKEY_AUTH_MIDDLEWARE)
 //var test = new LogTest(logger);
 
 
-
 //if (USE_APIKEY_AUTH_MIDDLEWARE)
-    //app.UseAuthorization();
+    app.UseAuthorization();
 
 //app.MapGet("/", () => Results.Redirect("https://example.com", true, true));
 //app.MapGet("/{*_}", (string _) => Results.Redirect("https://example.com", true, true));
