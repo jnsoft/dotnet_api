@@ -57,13 +57,13 @@ if(USE_APIKEY_AUTH_MIDDLEWARE)
 // app.MapGet("/", () => Results.Redirect("/swagger"));
 
 
-/*
-app.MapGet("/miniget", () => Models.WeatherForecast.Generate())
-    .WithName("GetWeatherForecastMini");
-*/
 
+RouteGroupBuilder wgroup;
 
-var wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
+if (USE_APIKEY_AUTH_ENDPOINT_FILTER)
+    wgroup = app.MapGroup("weather").AddEndpointFilter<ApiKeyEndpointFilter>();
+else
+    wgroup = app.MapGroup("weather");
 
 wgroup.MapGet("/weatherforecast", () =>
 {
