@@ -1,10 +1,12 @@
 using ControllerApi.Models;
+using ControllerApi.Database;
 using Microsoft.OpenApi.Models;
 using ControllerApi;
 using ControllerApi.Authentication;
+using System;
 
 
-const bool USE_APIKEY_AUTH_MIDDLEWARE = true;
+const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
 const bool USE_APIKEY_AUTH_FILTER = false;
 const bool USE_APIKEY_SCOPED_AUTH_FILTER = true;
 
@@ -16,6 +18,8 @@ if(USE_APIKEY_AUTH_FILTER && !USE_APIKEY_SCOPED_AUTH_FILTER)
     builder.Services.AddControllers(x => x.Filters.Add<ApiKeyAuthFilter>()); // method 2a (filter): apply to every controller
 else
     builder.Services.AddControllers(); 
+
+
     
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +52,8 @@ builder.Services.AddSwaggerGen(c =>
 
 if (!USE_APIKEY_AUTH_FILTER && USE_APIKEY_SCOPED_AUTH_FILTER)
     builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 2b: allow using filters on controllers/methods
+
+builder.Services.AddSingleton<IItemsDatabase, ItemsDatabase>();
 
 var app = builder.Build();
 
