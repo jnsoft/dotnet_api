@@ -23,7 +23,7 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             },
-            "requireExactSource": false
+            "requireExactSource": true
         },
         {
             "name": "Myapi2",
