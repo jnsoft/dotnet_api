@@ -4,8 +4,16 @@ Demo of API authentication
 ## API Key
 
 ### Using middleware
-* Applies authorization to all every method
+* Applies authorization to all methods
 * Works with both minimal api and controllers
+
+### Using auth filter
+* Applies authorization to all controllers
+* Works only with controllers
+
+### Using endpoint filter
+* Applies authorization to all endpoints
+* Works only with minimal api
 
 ## Setup build environment
 ```
