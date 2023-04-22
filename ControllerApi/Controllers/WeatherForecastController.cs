@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ControllerApi.Models;
 using ControllerApi.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ControllerApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ServiceFilter(typeof(ApiKeyAuthFilter))] //method 2b: using filters on controllers (or methods in controller)
     public class WeatherForecastController : ControllerBase
     {
         
@@ -18,8 +20,9 @@ namespace ControllerApi.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-       // [ServiceFilter(typeof(ApiKeyAuthFilter))] // method 3: using filters on controllers/methods
         public IEnumerable<WeatherForecast> Get() => Models.WeatherForecast.Generate();
-        
+
+       
+
     }
 }

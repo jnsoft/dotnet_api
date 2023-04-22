@@ -12,14 +12,17 @@ public class ApiKeyAuthFilter : IAsyncAuthorizationFilter
 
     public Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
+        // Get header value
         if (!context.HttpContext.Request.Headers.TryGetValue(AuthConstants.ApiKeyHeaderName, out var header_key))
         {
             context.Result = new UnauthorizedObjectResult(AuthConstants.ApiKeyMissingText);
             return Task.CompletedTask;
         }
 
+        // Get Key
         var api_key = _config.GetValue<string>(AuthConstants.ApiKeyConfigLocation);
 
+        // Compare header and key
         if (!api_key.Equals(header_key))
         {
             context.Result = new UnauthorizedObjectResult(AuthConstants.ApiKeyInvalidText);
