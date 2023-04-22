@@ -1,7 +1,8 @@
-using Common;
+using ControllerApi.Common;
+using ControllerApi.Models;
 using Microsoft.OpenApi.Models;
-using myapi2;
-using myapi2.Authentication;
+using ControllerApi;
+using ControllerApi.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +67,9 @@ if(useApiKeyAuthMiddleware)
 app.MapControllers();
 
 // using minimal API
-app.MapGet("/miniget", () => Models.WeatherForecast.Generate())
+app.MapGet("/miniget", () => WeatherForecast.Generate())
     .WithName("GetWeatherForecastMini");
+
+app.MapGet("/", () => "Controller API");
 
 app.Run();

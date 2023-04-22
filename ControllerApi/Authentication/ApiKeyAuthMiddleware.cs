@@ -1,4 +1,4 @@
-﻿namespace myapi2.Authentication
+﻿namespace ControllerApi.Authentication
 {
     public class ApiKeyAuthMiddleware
     {

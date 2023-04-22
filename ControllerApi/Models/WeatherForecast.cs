@@ -1,4 +1,4 @@
-namespace Models
+namespace ControllerApi.Models
 {
     public class WeatherForecast
     {

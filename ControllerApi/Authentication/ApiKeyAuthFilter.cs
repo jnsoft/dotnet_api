@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace myapi2.Authentication;
+namespace ControllerApi.Authentication;
 
 public class ApiKeyAuthFilter : IAsyncAuthorizationFilter
 {

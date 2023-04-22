@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using myapi2.Authentication;
+using ControllerApi.Models;
+using ControllerApi.Authentication;
 
-namespace myapi2.Controllers
+namespace ControllerApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
