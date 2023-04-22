@@ -1,4 +1,4 @@
-using myapi.Authentication;
+using MiniApi.Authentication;
 using Models;
 using Common;
 using Microsoft.OpenApi.Models;

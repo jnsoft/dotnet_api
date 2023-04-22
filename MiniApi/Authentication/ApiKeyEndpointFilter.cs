@@ -1,4 +1,4 @@
-﻿namespace myapi.Authentication;
+﻿namespace MiniApi.Authentication;
 
 public class ApiKeyEndpointFilter : IEndpointFilter // need .net7
 {

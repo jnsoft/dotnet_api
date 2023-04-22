@@ -1,7 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Common;
+namespace MiniApi.Common;
 public static class OpenApiSecurityDefinitions
 {
     public static OpenApiSecurityScheme ApiKeySecurityScheme()

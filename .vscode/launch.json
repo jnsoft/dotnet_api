@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Myapi",
+            "name": "MiniAPI",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/myapi/bin/Debug/net7.0/myapi.dll",
+            "program": "${workspaceFolder}/MinApi/bin/Debug/net7.0/myapi.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
