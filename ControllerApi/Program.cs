@@ -2,6 +2,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using ControllerApi.Common;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
 const bool USE_APIKEY_AUTH_FILTER = false;
@@ -28,8 +31,8 @@ if (USE_JWT_AUTHENTICATION)
         x.TokenValidationParameters = new TokenValidationParameters
         {
             ValidIssuer = config["Authentication:JwtSettings:Issuer"],
-            ValidAudience = config["Authentication:JwtSettings:Ausience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Authentication:JwtSettings:Key"]!)),
+            ValidAudience = config["Authentication:JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(config["Authentication:JwtSettings:Key"]!)),
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
@@ -37,7 +40,11 @@ if (USE_JWT_AUTHENTICATION)
         };
     });
 
-    builder.Services.AddAuthorization();
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy(IdentityData.AdminUserPolicy, p =>
+            p.RequireClaim(IdentityData.AdminUserClaim, "true"));
+    });
 }
 
 if (USE_APIKEY_AUTH_FILTER && !USE_APIKEY_SCOPED_AUTH_FILTER)
@@ -79,6 +86,8 @@ builder.Services.AddSwaggerGen(c =>
 if (!USE_APIKEY_AUTH_FILTER && USE_APIKEY_SCOPED_AUTH_FILTER)
     builder.Services.AddScoped<ApiKeyAuthFilter>(); // method 2b: allow using filters on controllers/methods
 
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
 builder.Services.AddSingleton<IItemsDatabase, ItemsDatabase>();
 
 #endregion
@@ -111,6 +120,8 @@ app.MapControllers();
 // using minimal API
 app.MapGet("/miniget", () => WeatherForecast.Generate()).WithName("GetWeatherForecastMini");
 app.MapGet("/", () => "Controller API");
+app.MapPost("/", () => Results.Ok())
+    .RequireAuthorization(IdentityData.AdminUserPolicy);
 
 #endregion
 

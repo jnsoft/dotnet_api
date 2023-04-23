@@ -18,7 +18,6 @@ public class ItemsController : ControllerBase
     {
         _logger = logger;
         _db = db;
-
     }
 
     // GET: <ItemsController>
@@ -26,17 +25,20 @@ public class ItemsController : ControllerBase
     public IEnumerable<Item> Get() => _db.Items.Values.ToList();
 
     // GET <ItemsController>/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public Item Get(Guid id) => _db.Items[id]; 
 
     [HttpPost]
     public void Post([FromBody] Item item) => _db.Items.Add(item.Id, item);
 
     // PUT <ItemsController>/5
-    [HttpPut("{id}")]
+    [Authorize(Policy = IdentityData.AdminUserPolicy)]
+    [HttpPut("{id:guid}")]
     public void Put([FromBody] Item item) => _db.Items[item.Id] = item;
 
     // DELETE api/<ItemsController>/5
-    [HttpDelete("{id}")]
+    [Authorize]
+    [RequiresClaims(IdentityData.AdminUserClaim, "true")]
+    [HttpDelete("{id:guid}")]
     public void Delete(Guid id) => _db.Items.Remove(id);
 }
