@@ -4,6 +4,8 @@ using MiniApi.Common;
 using Microsoft.OpenApi.Models;
 using System.Net;
 using Microsoft.Extensions.Logging.Console;
+using System;
+using Microsoft.AspNetCore.Mvc;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
 const bool USE_APIKEY_AUTH_ENDPOINT_FILTER = true;
@@ -29,6 +31,8 @@ builder.Services.AddSwaggerGen(c =>
 //});
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IDateTime, SystemDateTime>();
 
 var app = builder.Build();
 
@@ -72,22 +76,16 @@ wgroup.MapGet("/weatherforecastFromGroup", () =>
 
 
 app.MapGet("/", () => "Minimal API");
+app.MapGet("/ping", () => "pong");
+app.MapGet("/time", ([FromServices] IDateTime dateTime) => dateTime.Now);
+app.MapGet("/time2", (IDateTime dateTime) => dateTime.Now);
 
 
-if(USE_APIKEY_AUTH_ENDPOINT_FILTER)
-{
-    app.MapGet("/ping", () => "pong")
-        .AddEndpointFilter<ApiKeyEndpointFilter>();
+if (USE_APIKEY_AUTH_ENDPOINT_FILTER)
     app.MapGet("/weatherforecast", () => WeatherForecast.GenerateWeatherReport())
         .AddEndpointFilter<ApiKeyEndpointFilter>();
-
-}
 else
-{
-    app.MapGet("/ping", () => "pong");
     app.MapGet("/weatherforecast", () => WeatherForecast.GenerateWeatherReport());
-}
-    
 
 app.Run();
 

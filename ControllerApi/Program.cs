@@ -1,20 +1,46 @@
-using ControllerApi.Models;
-using ControllerApi.Database;
 using Microsoft.OpenApi.Models;
-using ControllerApi;
-using ControllerApi.Authentication;
-using System;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 const bool USE_APIKEY_AUTH_MIDDLEWARE = false;
 const bool USE_APIKEY_AUTH_FILTER = false;
-const bool USE_APIKEY_SCOPED_AUTH_FILTER = true;
+const bool USE_APIKEY_SCOPED_AUTH_FILTER = false;
+const bool USE_JWT_AUTHENTICATION = true;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
-// Add services to the container.
-if(USE_APIKEY_AUTH_FILTER && !USE_APIKEY_SCOPED_AUTH_FILTER)
+#region Services
+
+if (USE_JWT_AUTHENTICATION)
+{
+    // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+    builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(x =>
+    {
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = config["Authentication:JwtSettings:Issuer"],
+            ValidAudience = config["Authentication:JwtSettings:Ausience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Authentication:JwtSettings:Key"]!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true
+        };
+    });
+
+    builder.Services.AddAuthorization();
+}
+
+if (USE_APIKEY_AUTH_FILTER && !USE_APIKEY_SCOPED_AUTH_FILTER)
     builder.Services.AddControllers(x => x.Filters.Add<ApiKeyAuthFilter>()); // method 2a (filter): apply to every controller
 else
     builder.Services.AddControllers(); 
@@ -55,7 +81,12 @@ if (!USE_APIKEY_AUTH_FILTER && USE_APIKEY_SCOPED_AUTH_FILTER)
 
 builder.Services.AddSingleton<IItemsDatabase, ItemsDatabase>();
 
+#endregion
+
 var app = builder.Build();
+
+#region Middleware
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -69,12 +100,18 @@ app.UseHttpsRedirection();
 if(USE_APIKEY_AUTH_MIDDLEWARE)
     app.UseMiddleware<ApiKeyAuthMiddleware>(); // method 1 (middleware): use to apply apikey to every method (works with both controllers and minimal API)
 
-// app.UseAuthorization();
+if(USE_JWT_AUTHENTICATION)
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
+}
 
 app.MapControllers();
 
 // using minimal API
 app.MapGet("/miniget", () => WeatherForecast.Generate()).WithName("GetWeatherForecastMini");
 app.MapGet("/", () => "Controller API");
+
+#endregion
 
 app.Run();
