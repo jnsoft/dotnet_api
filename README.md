@@ -15,6 +15,34 @@ Demo of API authentication
 * Applies authorization to all endpoints
 * Works only with minimal api
 
+## JWT
+* Get JWT from IdP (post /token)
+
+```json
+{
+  "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "email": "test.test@test.com",
+  "audience": "https://localhost",
+  "customClaims": [
+    {
+      "key": "color",
+      "value": "blue"
+    },
+    {
+      "key": "number",
+      "value": 2
+    },
+    {
+      "key": "isadmin",
+      "value": true
+    }
+  ]
+}
+```
+
+* Login with JWT as Bearer in ControllerApi Swagger
+* Test put/delete items in ControllerApi or make a post to "/"in ControllerApi 
+
 ## Setup build environment
 ```
 dotnet dev-certs https
